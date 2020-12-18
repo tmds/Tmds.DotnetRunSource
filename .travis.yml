@@ -1,0 +1,20 @@
+language: csharp
+mono: none
+dotnet: 5.0
+
+env:
+  global:
+    # NuGetApiKey
+    secure: "t9VvKtWPJb/3vpI3mYWr31S6/2SGQRJPEHtuM3cRv+gzZqQe13Cukvl6tEITjTLNDRgNgQ55SUm2uANqwGhhHZAJqCHSk4ihXIS9YtL9xKtvWhV2WELwzOl7TPbnZSJABAUk6HW6P2jPR+H26hzr5jlu15+iDfAn/FF+cFvAuiEJrSVOB0ZQSqPYS1m0LJzkJ2t3bAvNp9AtWyDROTSawu480MOjvlycnc7unFS9lM4FibFSPhQitcNa7XBjL5RuvzUHqnpnxuVJEC7C2hMK0tpdH7Q+xoJ6dClFpE7rYlrmDe9cMD0KR/qQPsywbSBq52mE+lLE3nxssWtSAl4t6eU/Ug0ob2NJ/6qHUzj+lWFCsIm05mg9SAs30MoxUIH9derT3yaIH0//9sZDb0DMcfL8peAutq9rZV8lZa9jvbG9rCpD1k33Kto3OYXmFYon/QJfZJvpA6hZh6uhPIXhmBap2efWpAv7/GMsQgqumInUkP2N3WhvUUXtzIEUfIHGxWYhICpe9Xuje5A1wXJZcBKfMza2bEYJmWRjuNsikGMCRtFLWluJV0CFetiEAWcNsRO7n4AMvi4bKbA1sQ/Mb7GlcnerzN6Dxv7QPOFKPw51Vt8A2MJt8sgsYZVWhq+SBg49r711tOa9H04u7ecT5DydtiGjvOU9NrUiH0TfqLo="
+
+script:
+  - dotnet test
+  - dotnet build
+
+deploy:
+  - provider: script
+    edge: true
+    script: dotnet msbuild -t:PushPackages
+    on:
+      all_branches: true
+      condition: $TRAVIS_BRANCH == "main" || -n $TRAVIS_TAG
